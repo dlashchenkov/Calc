@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  calc.web:
+    image: ${DOCKER_REGISTRY-}calcweb
+    build:
+      context: .
+      dockerfile: Calc.Web/Dockerfile
+  calc.db:
+    container_name: calc-db
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "r00t.R00T"
+    ports:
+      - 1433:1433
+    volumes:
+      - calc-db-volume:/var/opt/mssql
+      
+volumes:
+  calc-db-volume:

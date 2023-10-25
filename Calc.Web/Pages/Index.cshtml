@@ -1,0 +1,39 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div>
+    <input id="first" name="first" type="number" />
+    <input id="second" name="second" type="number" />
+    <button onclick="sum()">SUM</button>
+</div>
+
+
+<script>
+    function sum(){
+        const first = +document.getElementById('first')?.value ?? 0;
+        const second = +document.getElementById('second')?.value ?? 0;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "first": first,
+            "second": second
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://localhost:60785/add", requestOptions)
+            .then(response => response.text())
+            .then(result => alert(result))
+            .catch(error => console.log('error', error));
+    }
+</script>
